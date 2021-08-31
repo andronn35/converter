@@ -1,0 +1,29 @@
+.header {
+  padding-top: 40px;
+  margin: 0 auto;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.header button {
+  width: 140px;
+  height: 40px;
+  font-size: 16px;
+  color: white;
+  background-color: rgb(221, 173, 15);
+  border: 1px solid rgb(221, 173, 15);
+}
+
+.header button:hover {
+  background-color: rgb(153, 120, 10);
+  border: 1px solid rgb(153, 120, 10);
+  cursor: pointer;
+}
+
+.header button:active {
+  color: rgb(211, 204, 204);
+}
+
+
+

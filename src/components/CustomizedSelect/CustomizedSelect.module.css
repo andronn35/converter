@@ -1,0 +1,25 @@
+.selects {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.arrowR {
+  margin-top: 25px;
+}
+
+.oneSelect {
+  display: flex;
+  justify-content: center;
+  margin: 15px;
+}
+@media (max-width:1000px) {
+  .selects {
+    flex-direction: column;    
+    margin: 15px;
+  }
+  .arrowR img{
+    transform: rotate(90deg);
+    height: 30px;
+  }
+}
