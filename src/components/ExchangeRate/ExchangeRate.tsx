@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { getRates, setBase } from './../../redux/rateReducer';
 import { AppStateType } from "../../redux/store"
 
-const ExchangeRate = () => {
+const ExchangeRate: React.FC = () => {
 
   const base = useSelector ((state: AppStateType ) => state.ratePage.base)
   const rates = useSelector ((state: AppStateType ) => state.ratePage.rates)

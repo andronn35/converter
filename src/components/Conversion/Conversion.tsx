@@ -6,7 +6,7 @@ import { AppStateType } from '../../redux/store'
 import { getConversion, setAmount, setBase, setRate, getResult } from '../../redux/currencyReducer'
 import { useEffect } from 'react'
 
-const Conversion = () => {
+const Conversion: React.FC = () => {
 
   const base = useSelector ((state: AppStateType ) => state.currencyPage.base)
   const rate = useSelector ((state: AppStateType ) => state.currencyPage.rate)
