@@ -1,10 +1,8 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunkMiddleware from "redux-thunk";
-import currencyReducer from './currencyReducer';
 import rateReducer from "./rateReducer";
 
 let reducers = combineReducers ({
-  currencyPage: currencyReducer,
   ratePage: rateReducer
 })
 

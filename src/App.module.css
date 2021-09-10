@@ -2,5 +2,7 @@
   background:  linear-gradient( rgba(0, 0, 0, 1), rgba(22, 26, 0, 0.6) ), url(./img/background.jpg);
   background-size: cover;  
   height: 100vh;
-  background-attachment: fixed
+  background-attachment: fixed;
+  padding-top: 60px;
+
 }
