@@ -103,12 +103,14 @@
 
 @media (max-width: 400px) {  
   .have,
-  .want,
-  .currencyValue input  {
+  .want
+  {
     width: 250px
   }
   .currencyValue input {
-    margin: 0;
+    margin: 20;
+    width: 300px;
+    font-size: 40px;
   }
   .blocks {
     flex-direction: column;
