@@ -1,64 +1,86 @@
-
 import classes from './ExchangeRate.module.css'
 import equals from '../../img/equals.png'
-import USA from '../../img/USA.png'
+import USD from '../../img/USA.png'
 import EUR from '../../img/EUR.png'
 import CHF from '../../img/CHF.png'
 import CNY from '../../img/CNY.png'
 import RUB from '../../img/RUB.png'
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux"
-import { getConversion, getResult, setAmount, setBase, setRate, getRate, getReverseRate, getRateResult, getReverseResult } from './../../redux/rateReducer';
-import { AppStateType } from "../../redux/store"
+import { useTypedSelector } from './../../hooks/useTypedSelector';
+import { useActions } from './../../hooks/useActions';
 
 const ExchangeRate: React.FC = () => {
 
   const [activeB, setActiveB] = useState('USD');
   const [activeR, setActiveR] = useState('RUB');
-  const base = useSelector ((state: AppStateType ) => state.ratePage.base)
-  const rate = useSelector ((state: AppStateType ) => state.ratePage.rate)
-  const amount = useSelector ((state: AppStateType ) => state.ratePage.amount)
-  const result = useSelector ((state: AppStateType ) => state.ratePage.result)
-  const rateResult = useSelector ((state: AppStateType ) => state.ratePage.rateResult)
-  const reverseResult = useSelector ((state: AppStateType ) => state.ratePage.reverseResult)
-  const dispatch = useDispatch()
+
+  const {base, rate, amount, result, rateResult, reverseResult} = useTypedSelector(state => state.rate)
+  const {getResult, getConversion, getRateResult, getRate, getReverseResult, getReverseRate, setBase, setRate, setAmount} = useActions()
 
   useEffect(() => {    
     if ( base === rate ) {
-      amount && dispatch(getResult(amount))
+      amount && getResult(amount)
     } else {
-      amount && dispatch(getConversion(amount, base, rate))
+      amount && getConversion(amount, base, rate)
     }    
-  }, [amount, base, rate, dispatch])
+  }, [amount, base, rate])
 
   useEffect(() => {
     if ( base === rate ) {
-      dispatch(getRateResult(1))
+      getRateResult(1)
     } else {
-      dispatch(getRate(base, rate))
+      getRate(base, rate)
     }
-  }, [base, rate, dispatch])
+  }, [base, rate])
 
 
   useEffect(() => {
     if ( base === rate ) {
-      dispatch(getReverseResult(1))
+      getReverseResult(1)
     } else {
-      dispatch(getReverseRate(rate, base))
+      getReverseRate(rate, base)
     }
-  }, [base, rate, dispatch])    
+  }, [base, rate])    
 
   let onChangeBase = (e: any) => {
-    dispatch(setBase(e.target.textContent))
+    setBase(e.target.textContent)
   }
 
   let onChangeRate = (e: any) => {
-    dispatch(setRate(e.target.textContent))
+    setRate(e.target.textContent)
   }
 
   let onChangeAmount = (e: any) => {
-    dispatch(setAmount(e.target.value))
+    setAmount(e.target.value)
   }
+
+  let currencies = [USD, EUR, CHF, CNY, RUB]
+  let currenciName = (currenci: any) => {
+    switch(currenci) {
+      case USD: return ('USD')
+      case EUR: return ('EUR')
+      case CHF: return ('CHF')
+      case CNY: return ('CNY')
+      case RUB: return ('RUB')
+      default: return ('RUB')
+    }
+  }
+
+  let showCurrencies = currencies.map((item, index) =>
+    <div key={index} className={(activeB === currenciName(item) && classes.active) || classes.oneCurrency} 
+      onClick={(e) => {onChangeBase(e); setActiveB(currenciName(item))}}>
+      <img src={item} alt='img'/>
+      <span>{currenciName(item)}</span>
+    </div>
+  )
+
+  let showCurrenciesB = currencies.map((item, index) =>
+    <div key={index} className={(activeR === currenciName(item) && classes.active) || classes.oneCurrency} 
+      onClick={(e) => {onChangeRate(e); setActiveR(currenciName(item))}}>
+      <img src={item} alt='img'/>
+      <span>{currenciName(item)}</span>
+    </div>
+  )
 
   return (
     <div className={classes.rate}>
@@ -66,17 +88,7 @@ const ExchangeRate: React.FC = () => {
       <div className={classes.blocks}>
         <div className={classes.have}> 
           <div className={classes.currency}>
-            
-            <div className={(activeB === 'USD' && classes.active) || classes.oneCurrency} 
-            onClick={(e) => {onChangeBase(e); setActiveB('USD')}}><img src={USA} alt='img'/><span>USD</span></div>
-            <div className={(activeB === 'EUR' && classes.active) || classes.oneCurrency} 
-            onClick={(e) => {onChangeBase(e); setActiveB('EUR')}}><img src={EUR} alt='img'/><span>EUR</span></div>
-            <div className={(activeB === 'CHF' && classes.active) || classes.oneCurrency} 
-            onClick={(e) => {onChangeBase(e); setActiveB('CHF')}}><img src={CHF} alt='img'/><span>CHF</span></div>
-            <div className={(activeB === 'CNY' && classes.active) || classes.oneCurrency} 
-            onClick={(e) => {onChangeBase(e); setActiveB('CNY')}}><img src={CNY} alt='img'/><span>CNY</span></div>
-            <div className={(activeB === 'RUB' && classes.active) || classes.oneCurrency} 
-            onClick={(e) => {onChangeBase(e); setActiveB('RUB')}}><img src={RUB} alt='img'/><span>RUB</span></div>
+            {showCurrencies}
           </div>
           <div className={classes.currencyValue}>
             <input onChange={onChangeAmount} value={amount} type='number'/>
@@ -86,16 +98,7 @@ const ExchangeRate: React.FC = () => {
         <div className={classes.equals}><img src={equals} alt='equals'/></div>
         <div className={classes.want}> 
           <div className={classes.currency}>
-            <div className={(activeR === 'USD' && classes.active) || classes.oneCurrency} 
-            onClick={(e) => {onChangeRate(e); setActiveR('USD')}}><img src={USA} alt='img'/><span>USD</span></div>
-            <div className={(activeR === 'EUR' && classes.active) || classes.oneCurrency} 
-            onClick={(e) => {onChangeRate(e); setActiveR('EUR')}}><img src={EUR} alt='img'/><span>EUR</span></div>
-            <div className={(activeR === 'CHF' && classes.active) || classes.oneCurrency} 
-            onClick={(e) => {onChangeRate(e); setActiveR('CHF')}}><img src={CHF} alt='img'/><span>CHF</span></div>
-            <div className={(activeR === 'CNY' && classes.active) || classes.oneCurrency} 
-            onClick={(e) => {onChangeRate(e); setActiveR('CNY')}}><img src={CNY} alt='img'/><span>CNY</span></div>
-            <div className={(activeR === 'RUB' && classes.active) || classes.oneCurrency} 
-            onClick={(e) => {onChangeRate(e); setActiveR('RUB')}}><img src={RUB} alt='img'/><span>RUB</span></div>
+            {showCurrenciesB}
           </div>
           <div className={classes.currencyValue}>
             <input readOnly  value={result}/>

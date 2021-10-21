@@ -97,7 +97,7 @@ const CustomizedSelects: React.FC<PropsType> = (props) => {
         
         <div>
           <FormControl className={classes.margin}>
-            <InputLabel htmlFor="demo-customized-select-native"  style={divStyle}>Валюта</InputLabel>
+            <InputLabel htmlFor="demo-customized-select-native" style={divStyle}>Валюта</InputLabel>
             <NativeSelect
               id="demo-customized-select-native"
               value={props.optionValue}
